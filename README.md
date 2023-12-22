@@ -6,10 +6,10 @@
 # Installation
 
 ```lua
-  {
+{
  "HumanEntity/denote.nvim",
- build = "mkdir -p ~/.denote/"
- 
+ build = "mkdir -p ~/.denote/",
+} 
 ```
 
 This takes care of installing and creating note directory for `denote`. Denote has no external dependencies but I recommend you use `telescope-ui-select.nvim` plugin for better ui.
