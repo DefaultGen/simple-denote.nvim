@@ -1,13 +1,13 @@
 local M = {}
 local U = require("denote.util")
 
-local function splitlines(str)
-	local result = {}
-	for line in string.gmatch(str .. "\n", "(.-)\n") do
-		table.insert(result, line)
-	end
-	return result
-end
+-- local function splitlines(str)
+-- 	local result = {}
+-- 	for line in string.gmatch(str .. "\n", "(.-)\n") do
+-- 		table.insert(result, line)
+-- 	end
+-- 	return result
+-- end
 
 local function splitspace(str)
 	local chunks = {}
@@ -57,7 +57,7 @@ function M.search()
 
 	local status = U.search(date, name, function(input)
 		if input then
-			vim.cmd("e " .. U.config.vault_dir .. "/" .. input)
+			vim.cmd("e " .. U.config.vault.dir .. "/" .. input)
 		end
 		if date then
 			print(date.year, " ", date.month, " ", date.day)
@@ -75,6 +75,7 @@ function M.search()
 	end
 end
 
+---@param config DenoteConfig
 function M.setup(config)
 	if config then
 		U.config = config

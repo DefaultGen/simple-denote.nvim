@@ -1,5 +1,14 @@
-local M = require("denote.config")
+local M = {}
+M.config = require("denote.config")
 
+---@class DenoteDate
+---@field year string
+---@field month string
+---@field day string
+
+---@param name string
+---@param tags table|nil
+---@return string filename format of files in denote.nvim
 function M.file(name, tags)
 	local file = ""
 
@@ -24,15 +33,21 @@ function M.file(name, tags)
 	return file .. "." .. M.config.filename.ext
 end
 
+---@param name string
+---@param tags table|nil
+--- Opens your note
 function M.note(name, tags)
-	local filename = M.config.vault_dir .. M.file(name, tags)
+	local filename = M.config.vault.dir .. M.file(name, tags)
 
 	-- Echo template
 
-	vim.cmd("!mkdir -p " .. M.config.vault_dir)
+	vim.cmd("!mkdir -p " .. M.config.vault.dir)
 	vim.cmd("e " .. filename)
 end
 
+---@param date DenoteDate|nil
+---@param name string|nil
+---@param func function
 function M.search(date, name, func)
 	local items = {}
 	local matcher = ""
@@ -67,7 +82,7 @@ function M.search(date, name, func)
 
 	-- matcher = matcher .. M.config.filename.name_sep .. "?" .. M.config.filename.name_sep .. "?" .. ".-"
 
-	for file in io.popen("ls " .. M.config.vault_dir):lines() do
+	for file in io.popen("ls " .. M.config.vault.dir):lines() do
 		local matched = file:match(matcher)
 
 		if matched then
