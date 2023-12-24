@@ -19,7 +19,7 @@ function M.file(name, tags)
 	if tags then
 		for i, tag in pairs(tags) do
 			tags_str = tags_str .. tag
-			if i < #tags - 1 then
+			if i < #tags then
 				tags_str = tags_str .. M.config.filename.tag_sep
 			end
 		end
