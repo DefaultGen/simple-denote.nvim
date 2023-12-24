@@ -26,10 +26,14 @@ function M.note()
 	end)
 
 	vim.ui.input({ prompt = "Enter tags: " }, function(input)
-		if input ~= "" then
+		if input ~= "" and input then
 			tags = splitspace(input)
 		end
 	end)
+
+	if name == "" then
+		error("Didn't specify name")
+	end
 
 	U.note(name, tags)
 end
