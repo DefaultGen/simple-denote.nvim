@@ -29,7 +29,7 @@ end
 
 ---@param date DenoteDate|nil
 ---@param name string|nil
-function M.search(date, name)
+function M.search(date, name, tags)
 	if not date then
 		vim.ui.input({ prompt = "Date: " }, function(input)
 			local split = util.splitspace(input)
@@ -52,7 +52,13 @@ function M.search(date, name)
 		end)
 	end
 
-	local status = internal.search(date, name, function(input)
+	if not tags then
+		vim.ui.input({ prompt = "Tags: " }, function(input)
+			tags = util.splitstring(input, " ")
+		end)
+	end
+
+	local status = internal.search(date, name, tags, function(input)
 		if input then
 			vim.cmd("e " .. config.vault.dir .. "/" .. input)
 		end

@@ -1,5 +1,6 @@
 local M = {}
 local config = require("denote.config")
+local util = require("denote.util")
 
 ---@class DenoteDate
 ---@field year string
@@ -47,8 +48,9 @@ end
 
 ---@param date DenoteDate|nil
 ---@param name string|nil
+---@param tags table|nil
 ---@param func function
-function M.search(date, name, func)
+function M.search(date, name, tags, func)
 	local items = {}
 	local matcher = ""
 
@@ -95,14 +97,43 @@ function M.search(date, name, func)
 		return nil
 	end
 
+	if tags then
+		local items_copy = items
+		items = {}
+		for _, item in pairs(items_copy) do
+			local item_tags_pre = M.get_tags(item)
+			local item_tags = {}
+			for _, i in item_tags_pre do
+				item_tags[i] = 0
+			end
+			local good = true
+			for _, tag in pairs(tags) do
+				if item_tags[tag] == nil then
+					good = false
+				end
+			end
+			if good then
+				items[#items + 1] = item
+			end
+		end
+	end
+
 	vim.ui.select(items, {
 		prompt = "Select note",
-		-- format_item = function(item)
-		-- 	return "" .. item
-		-- end,
 	}, func)
 
 	return true
+end
+
+---@param filename string
+---@return table
+function M.get_tags(filename)
+	local tags = {}
+	local name = util.splitstring(filename, ".")[1]
+	for _, s in pairs(util.splitstring(util.splitstring(name, config.filename.name_sep)[3], config.filename.tag_sep)) do
+		tags[#tags + 1] = s
+	end
+	return tags
 end
 
 return M

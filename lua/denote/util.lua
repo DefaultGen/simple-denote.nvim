@@ -8,4 +8,20 @@ function M.splitspace(str)
 	return chunks
 end
 
+function M.splitstring(str, delim)
+	local items = {}
+	local fulldelim = nil
+	if delim == "." or delim == "-" then
+		fulldelim = "%" .. delim
+	else
+		fulldelim = delim
+	end
+	print("fulldelim: ", fulldelim)
+	str = str .. delim
+	for w in str:gmatch("(.-)" .. fulldelim) do
+		items[#items + 1] = w
+	end
+	return items
+end
+
 return M
