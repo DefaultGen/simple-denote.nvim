@@ -64,11 +64,4 @@ function M.search()
 	end
 end
 
----@param config DenoteConfig
-function M.setup(config)
-	if config then
-		internal.config = config
-	end
-end
-
 return M
