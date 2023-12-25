@@ -3,19 +3,22 @@ local internal = require("denote.internal")
 local util = require("denote.util")
 local config = require("denote.config")
 
-function M.note()
-	local name = ""
-	local tags = nil
+---@param name string|nil
+---@param tags table|nil
+function M.note(name, tags)
+	if not name then
+		vim.ui.input({ prompt = "Note name: " }, function(input)
+			name = input
+		end)
+	end
 
-	vim.ui.input({ prompt = "Note name: " }, function(input)
-		name = input
-	end)
-
-	vim.ui.input({ prompt = "Enter tags: " }, function(input)
-		if input ~= "" and input then
-			tags = splitspace(input)
-		end
-	end)
+	if not tags then
+		vim.ui.input({ prompt = "Enter tags: " }, function(input)
+			if input ~= "" and input then
+				tags = util.splitspace(input)
+			end
+		end)
+	end
 
 	if name == "" then
 		error("Didn't specify name")
@@ -24,37 +27,36 @@ function M.note()
 	internal.note(name, tags)
 end
 
-function M.search()
-	local date = nil
-	local name = nil
-
-	vim.ui.input({ prompt = "Date: " }, function(input)
-		local split = util.splitspace(input)
-		if split[0] then
-			date = {}
-			date.year = split[0]
-			if split[1] then
-				date.month = split[1]
-				if split[2] then
-					date.day = split[2]
+---@param date DenoteDate|nil
+---@param name string|nil
+function M.search(date, name)
+	if not date then
+		vim.ui.input({ prompt = "Date: " }, function(input)
+			local split = util.splitspace(input)
+			if split[0] then
+				date = {}
+				date.year = split[0]
+				if split[1] then
+					date.month = split[1]
+					if split[2] then
+						date.day = split[2]
+					end
 				end
 			end
-		end
-	end)
-	vim.ui.input({ prompt = "Name: " }, function(input)
-		name = input
-	end)
+		end)
+	end
+
+	if not name then
+		vim.ui.input({ prompt = "Name: " }, function(input)
+			name = input
+		end)
+	end
 
 	local status = internal.search(date, name, function(input)
 		if input then
 			vim.cmd("e " .. config.vault.dir .. "/" .. input)
 		end
 	end)
-	-- print(date)
-	-- if date then
-	-- 	print(date.year, " ", date.month, " ", date.day)
-	-- 	print("FSD")
-	-- end
 
 	if not status then
 		print("Error opening file")
