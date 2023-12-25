@@ -29,6 +29,7 @@ end
 
 ---@param date DenoteDate|nil
 ---@param name string|nil
+---@param tags table|nil
 function M.search(date, name, tags)
 	if not date then
 		vim.ui.input({ prompt = "Date: " }, function(input)
@@ -54,6 +55,9 @@ function M.search(date, name, tags)
 
 	if not tags then
 		vim.ui.input({ prompt = "Tags: " }, function(input)
+			if input == "" then
+				return
+			end
 			tags = util.splitstring(input, " ")
 		end)
 	end
