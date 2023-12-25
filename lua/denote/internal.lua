@@ -1,5 +1,5 @@
 local M = {}
-M.config = require("denote.config")
+local config = require("denote.config")
 
 ---@class DenoteDate
 ---@field year string
@@ -20,28 +20,28 @@ function M.file(name, tags)
 		for i, tag in pairs(tags) do
 			tags_str = tags_str .. tag
 			if i < #tags then
-				tags_str = tags_str .. M.config.filename.tag_sep
+				tags_str = tags_str .. config.filename.tag_sep
 			end
 		end
 	end
 
-	file = date .. M.config.filename.date_sep .. M.config.filename.date_sep .. name
+	file = date .. config.filename.date_sep .. M.config.filename.date_sep .. name
 	if tags then
-		file = file .. M.config.filename.name_sep .. M.config.filename.name_sep .. tags_str
+		file = file .. config.filename.name_sep .. M.config.filename.name_sep .. tags_str
 	end
 
-	return file .. "." .. M.config.filename.ext
+	return file .. "." .. config.filename.ext
 end
 
 ---@param name string
 ---@param tags table|nil
 --- Opens your note
 function M.note(name, tags)
-	local filename = M.config.vault.dir .. M.file(name, tags)
+	local filename = config.vault.dir .. M.file(name, tags)
 
 	-- Echo template
 
-	vim.cmd("!mkdir -p " .. M.config.vault.dir)
+	vim.cmd("!mkdir -p " .. config.vault.dir)
 	vim.cmd("e " .. filename)
 end
 
@@ -69,9 +69,9 @@ function M.search(date, name, func)
 			matcher = "%d%d"
 		end
 
-		matcher = matcher .. M.config.filename.date_sep .. M.config.filename.date_sep
+		matcher = matcher .. config.filename.date_sep .. M.config.filename.date_sep
 	else
-		matcher = "%d+" .. M.config.filename.date_sep .. M.config.filename.date_sep
+		matcher = "%d+" .. config.filename.date_sep .. M.config.filename.date_sep
 	end
 
 	if name then
@@ -80,9 +80,9 @@ function M.search(date, name, func)
 		matcher = matcher .. ".+"
 	end
 
-	-- matcher = matcher .. M.config.filename.name_sep .. "?" .. M.config.filename.name_sep .. "?" .. ".-"
+	-- matcher = matcher .. config.filename.name_sep .. "?" .. M.config.filename.name_sep .. "?" .. ".-"
 
-	for file in io.popen("ls " .. M.config.vault.dir):lines() do
+	for file in io.popen("ls " .. config.vault.dir):lines() do
 		local matched = file:match(matcher)
 
 		if matched then

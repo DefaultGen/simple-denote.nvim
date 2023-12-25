@@ -1,6 +1,7 @@
 local M = {}
 local internal = require("denote.internal")
 local util = require("denote.util")
+local config = require("denote.config")
 
 function M.note()
 	local name = ""
@@ -46,7 +47,7 @@ function M.search()
 
 	local status = internal.search(date, name, function(input)
 		if input then
-			vim.cmd("e " .. internal.config.vault.dir .. "/" .. input)
+			vim.cmd("e " .. config.vault.dir .. "/" .. input)
 		end
 		if date then
 			print(date.year, " ", date.month, " ", date.day)
