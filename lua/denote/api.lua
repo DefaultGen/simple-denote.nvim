@@ -49,10 +49,6 @@ function M.search()
 		if input then
 			vim.cmd("e " .. config.vault.dir .. "/" .. input)
 		end
-		if date then
-			print(date.year, " ", date.month, " ", date.day)
-			print("FSD")
-		end
 	end)
 	-- print(date)
 	-- if date then
