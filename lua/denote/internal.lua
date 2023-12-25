@@ -61,12 +61,12 @@ function M.search(date, name, func)
 		if date.month then
 			matcher = matcher .. date.month
 		else
-			matcher = "%d%d"
+			matcher = matcher .. "%d%d"
 		end
 		if date.day then
 			matcher = matcher .. date.day
 		else
-			matcher = "%d%d"
+			matcher = matcher .. "%d%d"
 		end
 
 		matcher = matcher .. config.filename.date_sep .. config.filename.date_sep
