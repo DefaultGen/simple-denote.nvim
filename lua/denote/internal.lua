@@ -103,7 +103,7 @@ function M.search(date, name, tags, func)
 		for _, item in pairs(items_copy) do
 			local item_tags_pre = M.get_tags(item)
 			local item_tags = {}
-			for _, i in item_tags_pre do
+			for _, i in pairs(item_tags_pre) do
 				item_tags[i] = 0
 			end
 			local good = true
