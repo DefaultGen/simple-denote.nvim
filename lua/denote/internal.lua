@@ -25,9 +25,9 @@ function M.file(name, tags)
 		end
 	end
 
-	file = date .. config.filename.date_sep .. M.config.filename.date_sep .. name
+	file = date .. config.filename.date_sep .. config.filename.date_sep .. name
 	if tags then
-		file = file .. config.filename.name_sep .. M.config.filename.name_sep .. tags_str
+		file = file .. config.filename.name_sep .. config.filename.name_sep .. tags_str
 	end
 
 	return file .. "." .. config.filename.ext
@@ -69,9 +69,9 @@ function M.search(date, name, func)
 			matcher = "%d%d"
 		end
 
-		matcher = matcher .. config.filename.date_sep .. M.config.filename.date_sep
+		matcher = matcher .. config.filename.date_sep .. config.filename.date_sep
 	else
-		matcher = "%d+" .. config.filename.date_sep .. M.config.filename.date_sep
+		matcher = "%d+" .. config.filename.date_sep .. config.filename.date_sep
 	end
 
 	if name then
