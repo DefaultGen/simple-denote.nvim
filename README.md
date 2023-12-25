@@ -25,7 +25,7 @@ To create use `note` sub command. It will will prompt for note name and tags. Ta
 
 ### Searching for notes
 
-To search for note use `search` sub command. It will prompt for date in YEAR MONTH DAY format and name.
+To search for note use `search` sub command. It will prompt for date in YEAR MONTH DAY format, name and tags.
 
 ## `api` way
 
@@ -53,8 +53,8 @@ api.note(name, tags)
 
 ### Searching for notes
 
-To search for note use `search` function. `date` is table with year, month and day field.
+To search for note use `search` function.`date` is table with year, month and day field, `name` just a string and `tags` list of tags.
 
 ```lua
-api.search(date,name)
+api.search(date,name,tags)
 ```
