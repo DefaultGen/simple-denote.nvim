@@ -5,7 +5,6 @@ This is a fork of HumanEntity's `denote.nvim`, modified to suit my personal pref
 There is no support for frontmatter, signatures, or any other `denote` features because I don't use them. I just like the filenaming scheme. This is just a simple command I use to create new markdown notes with `denote` filenaming.
 
 You can read more about the `denote` file-naming scheme here:
-
 https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
 
 # Installation / Config
