@@ -5,6 +5,7 @@ This is a fork of HumanEntity's `denote.nvim`, modified to suit my personal pref
 There is no support for frontmatter, signatures, or any other `denote` features because I don't use them. I just like the filenaming scheme. This is just a simple command I use to create new markdown notes with `denote` filenaming.
 
 You can read more about the `denote` file-naming scheme here:
+
 https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
 
 # Installation / Config
@@ -23,7 +24,9 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 ```
 
 `ext` is the file extension for your notes (e.g. md, org, norg)
+
 `dir` is your notes directory. Make sure you create it beforehand.
+
 `new_heading_on_retitle` determines whether `denote.nvim` will replace the first line with a new heading when you retitle a note. It will only do this if the first line is a heading to begin with.
 
 
