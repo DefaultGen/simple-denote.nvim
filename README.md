@@ -37,17 +37,15 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ### Creating notes
 
-To create use `note` sub command. It will will prompt for note name and tags. Tags are space separated.
+To create use `:Denote note` command. It will will prompt for note name and tags. Tags are space separated.
 
 ### Change note title
 
-To change the title, use the `retitle` sub command. It will prompt you for a new title, then update both the filename and first line (if configured).
-
-I don't use frontmatter and all my markdown notes start with a heading that includes the title, so the default behavior is to swap the first line with the new title. You can disable this in the config so it only changes the filename.
+To change the title, use the `:Denote retitle` command. It will prompt you for a new title, then update both the filename and first line (if configured).
 
 ### Change note tags
 
-To change the tags, use the `retag` sub command. This will prompt you for new, comma-separated tags. All this does is change the filename because I don't use frontmatter.
+To change the tags, use the `:Denote retag` command. This will replace your tags with the new tags. All this does is change the filename.
 
 ## `api` way
 
