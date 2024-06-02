@@ -2,7 +2,7 @@
 
 This is a fork of HumanEntity's `denote.nvim`, modified to suit my personal preferences and be more accurate to the original emacs `denote` filename format.
 
-The plugin just provides a command `:Denote note` that creates a new note with a `denote` style filename.
+The plugin just provides a command `:Denote note` that creates a new note with a `denote` style filename. For example: `20240601T174946--how-to-tie-a-tie__lifeskills_clothes.md`
 
 There is no support for frontmatter, signatures, or any other `denote` features because I don't use them. I just like the filenaming scheme.
 
