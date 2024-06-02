@@ -1,139 +1,94 @@
 local M = {}
-local config = require("denote.config")
-local util = require("denote.util")
 
----@class DenoteDate
----@field year string
----@field month string
----@field day string
-
----@param name string
----@param tags table|nil
----@return string filename format of files in denote.nvim
-function M.file(name, tags)
-	local file = ""
-
-	local date = tostring(os.date("%Y%m%d"))
-
-	local tags_str = ""
-
-	if tags then
-		for i, tag in pairs(tags) do
-			tags_str = tags_str .. tag
-			if i < #tags then
-				tags_str = tags_str .. config.filename.tag_sep
-			end
-		end
-	end
-
-	file = date .. config.filename.date_sep .. config.filename.date_sep .. name
-	if tags then
-		file = file .. config.filename.name_sep .. config.filename.name_sep .. tags_str
-	end
-
-	return file .. "." .. config.filename.ext
-end
-
+---@param options table
 ---@param name string
 ---@param tags table|nil
 --- Opens your note
-function M.note(name, tags)
-	local filename = config.vault.dir .. M.file(name, tags)
-
-	-- Echo template
-
-	vim.cmd("!mkdir -p " .. config.vault.dir)
-	vim.cmd("e " .. filename)
+function M.note(options, name, tags)
+  local path = options.dir
+  local file = ""
+  local date = os.date("%Y%m%dT%H%M%S")
+  local tags_str = ""
+  name = name:gsub("^%s*(.-)%s*$", "%1")
+  name = name:gsub("[^%w%s]","")
+  name = name:gsub("%s","-")
+  if tags then
+    for i, tag in pairs(tags) do
+      tag = tag:gsub("[^%w%s]","")
+      tags_str = tags_str .. tag
+      if i < #tags then
+        tags_str = tags_str .. "_"
+      end
+    end
+  end
+  file = date .. "--" .. name:lower()
+  if tags_str ~= "" then
+    file = file .. "__" .. tags_str:lower()
+  end
+  path = path .. file .. "." .. options.ext
+  vim.cmd("e " .. path)
 end
 
----@param date DenoteDate|nil
----@param name string|nil
----@param tags table|nil
----@param func function
-function M.search(date, name, tags, func)
-	local items = {}
-	local matcher = ""
-
-	if date then
-		if date.year then
-			matcher = date.year
-		else
-			matcher = "%d%d%d%d"
-		end
-		if date.month then
-			matcher = matcher .. date.month
-		else
-			matcher = matcher .. "%d%d"
-		end
-		if date.day then
-			matcher = matcher .. date.day
-		else
-			matcher = matcher .. "%d%d"
-		end
-
-		matcher = matcher .. config.filename.date_sep .. config.filename.date_sep
-	else
-		matcher = "%d+" .. config.filename.date_sep .. config.filename.date_sep
-	end
-
-	if name then
-		matcher = matcher .. name
-	else
-		matcher = matcher .. ".+"
-	end
-
-	-- matcher = matcher .. config.filename.name_sep .. "?" .. M.config.filename.name_sep .. "?" .. ".-"
-
-	for file in io.popen("ls " .. config.vault.dir):lines() do
-		local matched = file:match(matcher)
-
-		if matched then
-			print("file " .. file)
-			items[#items + 1] = file
-		end
-	end
-
-	if not items or #items == 0 then
-		return nil
-	end
-
-	if tags then
-		local items_copy = items
-		items = {}
-		for _, item in pairs(items_copy) do
-			local item_tags_pre = M.get_tags(item)
-			local item_tags = {}
-			for _, i in pairs(item_tags_pre) do
-				item_tags[i] = 0
-			end
-			local good = true
-			for _, tag in pairs(tags) do
-				if item_tags[tag] == nil then
-					good = false
-				end
-			end
-			if good then
-				items[#items + 1] = item
-			end
-		end
-	end
-
-	vim.ui.select(items, {
-		prompt = "Select note",
-	}, func)
-
-	return true
-end
-
+---@param options table
 ---@param filename string
----@return table
-function M.get_tags(filename)
-	local tags = {}
-	local name = util.splitstring(filename, ".")[1]
-	for _, s in pairs(util.splitstring(util.splitstring(name, config.filename.name_sep)[3], config.filename.tag_sep)) do
-		tags[#tags + 1] = s
-	end
-	return tags
+---@param new_title string
+--- Retitles the filename and changes the first heading of the note
+function M.retitle(options, filename, new_title)
+  local new_filename = filename:match("^(.*%d%d%d%d%d%d%d%dT%d%d%d%d%d%d).*")
+  local tags = filename:match(".*(__.*)%..*")
+  if new_filename == nil then
+    error("Doesn't look like a Denote filename")
+  end
+  new_title = new_title:gsub("^%s*(.-)%s*$", "%1") -- Trim whitespace
+
+  -- Replace first line with new heading
+  if options.new_heading_on_retitle == true and new_title ~= "" then
+    local first_char = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]:sub(1, 1)
+    if (first_char == "#" and options.ext == "md") or 
+       (first_char == "*" and (options.ext == "org" or options.ext == "norg")) then
+      vim.api.nvim_buf_set_lines(0, 0, 1, false, {first_char .. " " .. new_title})
+    end
+  end
+  new_title = new_title:lower()
+  new_title = new_title:gsub("[^%w%s]","")
+  new_title = new_title:gsub("%s","-")
+  if new_title ~= "" then
+    new_title = "--" .. new_title
+  end
+  new_filename = new_filename .. new_title .. (tags or "") .. "." .. options.ext
+  if filename ~= new_filename then
+    vim.cmd('saveas ' .. new_filename)
+    vim.cmd('silent !rm ' .. filename)
+  end
+end
+
+---@param options table
+---@param filename string
+---@param new_tags table
+---Replaces the tags in filename with the tags in new_tags
+function M.retag(options, filename, new_tags)
+  local tags_str = ""
+  local new_filename = filename:match("^(.*)__.*$")
+  if new_filename == nil then
+    new_filename = filename:match("^(.*)%..*$")
+  end
+  if new_tags then
+    for i, tag in pairs(new_tags) do
+      tag = tag:gsub("[^%w%s]","")
+      tags_str = tags_str .. tag
+      if i < #new_tags then
+        tags_str = tags_str .. "_"
+      end
+    end
+  end
+  if tags_str ~= "" then
+    new_filename = new_filename .. "__" .. tags_str:lower()
+  end
+  new_filename = new_filename .. "." .. options.ext
+  if filename ~= new_filename then
+    vim.cmd('saveas ' .. new_filename)
+    vim.cmd('silent !rm ' .. filename)
+  end
 end
 
 return M

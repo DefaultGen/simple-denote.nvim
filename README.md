@@ -1,19 +1,31 @@
 # `denote.nvim`
 
-`denote.nvim` is a plugins for creating notes without any external dependencies. Main inspiration for this project was emacs package called `Denote`.
+This is a fork of HumanEntity's `denote.nvim`, modified to suit my personal preferences and be more accurate to the original emacs `denote` filename format.
 
+There is no support for frontmatter, signatures, or any other `denote` features because I don't use them. I just like the filenaming scheme. This is just a simple command I use to create new markdown notes with `denote` filenaming.
 
-# Installation
+You can read more about the `denote` file-naming scheme here:
+https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
+
+# Installation / Config
+
+Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 {
-    "HumanEntity/denote.nvim",
-    build = "mkdir -p ~/.denote/",
-    cmd = "Denote",
+  "DefaultGen/denote.nvim",
+  opts = {
+    ext = "md",
+    dir = "~/notes/",
+    new_heading_on_retitle = true,
+  },
 } 
 ```
 
-This takes care of installing, lazy loading and creating note directory for `denote`. Denote has no external dependencies but I recommend you use `telescope-ui-select.nvim` plugin for better ui.
+`ext` is the file extension for your notes (e.g. md, org, norg)
+`dir` is your notes directory. Make sure you create it beforehand.
+`new_heading_on_retitle` determines whether `denote.nvim` will replace the first line with a new heading when you retitle a note. It will only do this if the first line is a heading to begin with.
+
 
 # Usage
 
@@ -23,9 +35,15 @@ This takes care of installing, lazy loading and creating note directory for `den
 
 To create use `note` sub command. It will will prompt for note name and tags. Tags are space separated.
 
-### Searching for notes
+### Change note title
 
-To search for note use `search` sub command. It will prompt for date in YEAR MONTH DAY format, name and tags.
+To change the title, use the `retitle` sub command. It will prompt you for a new title, then update both the filename and first line (if configured).
+
+I don't use frontmatter and all my markdown notes start with a heading that includes the title, so the default behavior is to swap the first line with the new title. You can disable this in the config so it only changes the filename.
+
+### Change note tags
+
+To change the tags, use the `retag` sub command. This will prompt you for new, comma-separated tags. All this does is change the filename because I don't use frontmatter.
 
 ## `api` way
 
@@ -48,13 +66,9 @@ One thing to note is that you can use the api just like the command just don't p
 To create the note use `note` function.
 
 ```lua
-api.note(name, tags)
+api.note(options, name, tags)
 ```
 
-### Searching for notes
+# License
 
-To search for note use `search` function.`date` is table with year, month and day field, `name` just a string and `tags` list of tags.
-
-```lua
-api.search(date,name,tags)
-```
+MIT

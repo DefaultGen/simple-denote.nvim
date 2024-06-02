@@ -1,14 +1,12 @@
-local M = {
-	api = require("denote.api"),
-	cmd = require("denote.cmd"),
-}
+local M = {}
 
----@param config DenoteConfig
-function M.setup(config)
-	M.cmd.load_cmd()
-	if config then
-		M.config = config
-	end
+local cmd = require("denote.cmd")
+local config = require("denote.config")
+
+---@param options? table user configuration
+function M.setup(options)
+  config.options = vim.tbl_deep_extend("force", config.defaults, options or {})
+  cmd.load_cmd(config.options)
 end
 
 return M
