@@ -1,8 +1,6 @@
 # simple-denote.nvim
 
-This is a fork of [HumanEntity's denote.nvim](https://github.com/HumanEntity/denote.nvim), modified to suit my personal preferences and be more accurate to the original emacs `denote` filename format.
-
-The plugin just provides a command `:Denote note` that creates a new note with a `denote` style filename. For example: `20240601T174946--how-to-tie-a-tie__lifeskills_clothes.md`
+The plugin provides a command `:Denote note` that creates a new note with a filename similar to the emacs `denote` package. For example: `20240601T174946--how-to-tie-a-tie__lifeskills_clothes.md`.
 
 There is no support for frontmatter, signatures, or any other denote features because I don't use them. I just like the file-naming scheme.
 
@@ -27,7 +25,7 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 The heading options automatically support Markdown (#) and Org/Norg (*) headings.
 
-# `Denote` Command
+# :Denote Command
 
 ```vim
 " Creates a new note in the `dir` directory with `ext` extension
@@ -45,6 +43,10 @@ The heading options automatically support Markdown (#) and Org/Norg (*) headings
 " Renames the current note with the new list of tags (space delimited)
 :Denote retag
 ```
+
+# Credits
+
+Lots of code stolen from [HumanEntity's denote.nvim](https://github.com/HumanEntity/denote.nvim) and modified to suit my personal preference or closer adhere to the original Denote spec.
 
 # License
 
