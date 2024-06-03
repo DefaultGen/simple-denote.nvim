@@ -15,14 +15,14 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 {
-  "DefaultGen/denote.nvim",
+  "DefaultGen/simple-denote.nvim",
   opts = {
-    ext = "md", -- Note file extension
-    dir = "~/notes/", -- Directory where notes are created
-    new_heading_on_retitle = true, -- Determines whether to replace the first
-                                   -- line with a new heading upon retitling
+    ext = "md",             -- Note file extension
+    dir = "~/notes",        -- Notes directory (should already exist)
+    add_heading = true,     -- Add a md/org heading to new notes
+    retitle_heading = true, -- Replace the first line with a new heading when retitling
   },
-} 
+},
 ```
 
 `new_heading_on_retitle` supports Markdown (#) and Org/Norg (*) headings.
