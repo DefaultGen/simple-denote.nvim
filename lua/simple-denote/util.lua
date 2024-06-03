@@ -24,9 +24,19 @@ function M.splitstring(str, delim)
   return items
 end
 
---- Escape a string to use as a lua pattern
-function M.escape(str)
-    return str:gsub("(%W)", "%%%1")
+--- Trim whitespace on either end of string
+function M.trim(str)
+   local from = str:match"^%s*()"
+   return from > #str and "" or str:match(".*%S", from)
+end
+
+--- Remove special chars, make lowercase, spaces to dashes
+function M.plain_format(str)
+  str = str:lower()
+  str = str:gsub("[^%w%s]","")
+  str = M.trim(str)
+  str = str:gsub("%s+","-")
+  return str
 end
 
 return M
