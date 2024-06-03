@@ -1,4 +1,4 @@
-# `denote.nvim`
+# `simple-denote.nvim`
 
 This is a fork of HumanEntity's `denote.nvim`, modified to suit my personal preferences and be more accurate to the original emacs `denote` filename format.
 
@@ -17,58 +17,33 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 {
   "DefaultGen/denote.nvim",
   opts = {
-    ext = "md",
-    dir = "~/notes/",
-    new_heading_on_retitle = true,
+    ext = "md", -- Note file extension
+    dir = "~/notes/", -- Directory where notes are created
+    new_heading_on_retitle = true, -- Determines whether to replace the first
+                                   -- line with a new heading upon retitling
   },
 } 
 ```
 
-`ext` is the file extension for your notes (e.g. md, org, norg)
+`new_heading_on_retitle` supports Markdown (#) and Org/Norg (*) headings.
 
-`dir` is your notes directory. Make sure you create it beforehand.
+# `Denote` Command
 
-`new_heading_on_retitle` determines whether `denote.nvim` will replace the first line with a new heading when you retitle a note. It will only do this if the first line is a heading to begin with.
-
-
-# Usage
-
-## `Denote` command
-
-### Creating notes
-
-To create use `:Denote note` command. It will will prompt for note name and tags. Tags are space separated.
-
-### Change note title
-
-To change the title, use the `:Denote retitle` command. It will prompt you for a new title, then update both the filename and first line (if configured).
-
-### Change note tags
-
-To change the tags, use the `:Denote retag` command. This will replace your tags with the new tags. All this does is change the filename.
-
-## `api` way
-
-To use `denote` api either require it using
-
-```lua
-local api = require("denote.api")
+```vim
+" Creates a new note in the `dir` directory with `ext` extension
+" Tags are space delimited. The title or tags can be blank.
+:Denote note
 ```
 
-or use `denote.api`
-
-```lua
-local api = require("denote").api
+```vim
+" Renames the current note with the new title
+" If `new_heading_on_retitle` is true, overwrites the first line heading as well
+:Denote retitle
 ```
 
-One thing to note is that you can use the api just like the command just don't pass any argument to function.
-
-### Creating notes
-
-To create the note use `note` function.
-
-```lua
-api.note(options, name, tags)
+```vim
+" Renames the current note with the new list of tags (space delimited)
+:Denote retag
 ```
 
 # License
