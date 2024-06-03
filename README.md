@@ -1,4 +1,4 @@
-#simple-denote.nvim
+# simple-denote.nvim
 
 This is a fork of [HumanEntity's denote.nvim](https://github.com/HumanEntity/denote.nvim), modified to suit my personal preferences and be more accurate to the original emacs `denote` filename format.
 
