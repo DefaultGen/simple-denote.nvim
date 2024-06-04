@@ -1,7 +1,14 @@
 local M = {}
 
 local internal = require("simple-denote.internal")
-local util = require("simple-denote.util")
+
+function M.splitspace(str)
+  local chunks = {}
+  for substring in str:gmatch("%S+") do
+    table.insert(chunks, #chunks, substring)
+  end
+  return chunks
+end
 
 ---@param options table
 ---@param name string|nil
@@ -14,9 +21,7 @@ function M.note(options, name, tags)
   end
   if not tags then
     vim.ui.input({ prompt = "Tags: " }, function(input)
-      if input ~= "" and input then
-        tags = util.splitspace(input)
-      end
+      tags = input
     end)
   end
   internal.note(options, name, tags)
@@ -25,33 +30,31 @@ end
 ---@param options table
 ---@param filename string|nil
 ---@param new_title string|nil
-function M.retitle(options, filename, new_title)
+function M.retitle(options, filename, title)
   if not filename then
     filename = vim.fn.expand("%")
   end
-  if not new_title then
+  if not title then
     vim.ui.input({ prompt = "New title: " }, function(input)
-      new_title = input
+      title = input
     end)
   end
-  internal.retitle(options, filename, new_title)
+  internal.retitle(options, filename, title)
 end
 
 ---@param options table
 ---@param filename string|nil
 ---@param new_tags table|nil
-function M.retag(options, filename, new_tags)
+function M.retag(options, filename, tags)
   if not filename then
     filename = vim.fn.expand("%")
   end
-  if not new_tags then
+  if not tags then
     vim.ui.input({ prompt = "New tags: " }, function(input)
-      if input ~= "" and input then
-        new_tags = util.splitspace(input)
-      end
+      tags = input
     end)
   end
-  internal.retag(options, filename, new_tags)
+  internal.retag(options, filename, tags)
 end
 
 return M
