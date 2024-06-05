@@ -2,14 +2,6 @@ local M = {}
 
 local internal = require("simple-denote.internal")
 
-function M.splitspace(str)
-  local chunks = {}
-  for substring in str:gmatch("%S+") do
-    table.insert(chunks, #chunks, substring)
-  end
-  return chunks
-end
-
 ---@param options table
 ---@param name string|nil
 ---@param tags table|nil
@@ -30,7 +22,7 @@ end
 ---@param options table
 ---@param filename string|nil
 ---@param new_title string|nil
-function M.retitle(options, filename, title)
+function M.title(options, filename, title)
   if not filename then
     filename = vim.fn.expand("%")
   end
@@ -39,13 +31,13 @@ function M.retitle(options, filename, title)
       title = input
     end)
   end
-  internal.retitle(options, filename, title)
+  internal.title(options, filename, title)
 end
 
 ---@param options table
 ---@param filename string|nil
----@param new_tags table|nil
-function M.retag(options, filename, tags)
+---@param tags table|nil
+function M.tag(options, filename, tags)
   if not filename then
     filename = vim.fn.expand("%")
   end
@@ -54,7 +46,20 @@ function M.retag(options, filename, tags)
       tags = input
     end)
   end
-  internal.retag(options, filename, tags)
+  internal.tag(options, filename, tags)
+end
+
+---@param options table
+---@param filename string|nil
+---@param sig string
+function M.signature(options, filename, sig)
+  filename = filename or vim.fn.expand("%")
+  if not sig then
+    vim.ui.input({ prompt = "Signature: " }, function(input)
+      sig = input
+    end)
+  end
+  internal.signature(options, filename, sig)
 end
 
 return M

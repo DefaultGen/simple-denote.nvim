@@ -39,6 +39,16 @@ function M.set_heading(title, ext)
   vim.api.nvim_buf_set_lines(0, 0, 1, false, {prefix .. title})
 end
 
+--- TODO: Set a heading char option to clean this up. Probably combine these functions.
+function M.replace_heading(options, title)
+  if title == "" then return end
+  local first_char = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]:sub(1, 1)
+  if (first_char == "#" and options.ext == "md") or 
+     (first_char == "*" and (options.ext == "org" or options.ext == "norg")) then
+    M.set_heading(title, options.ext)
+  end
+end
+
 ---@param new_filename string
 ---@param old_filename string
 ---Save new file, delete old file
@@ -72,36 +82,45 @@ end
 ---@param filename string
 ---@param title string
 --- Retitles the filename and changes the first heading of the note
-function M.retitle(options, filename, title)
-  local new_filename = filename:match("^(.-%d%d%d%d%d%d%d%dT%d%d%d%d%d%d).*")
+function M.title(options, filename, title)
+  local prefix = filename:match("^(.-%d%d%d%d%d%d%d%dT%d%d%d%d%d%d).*")
   local tags = filename:match(".-(__.*)%..*")
-  if new_filename == nil then
-    error("This file doesn't look like it has a Denote-style name")
-  end
+  if not prefix then error("This doesn't look like a Denote filename") end
   title = M.trim(title)
-  if options.retitle_heading and title ~= "" then
-    local first_char = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]:sub(1, 1)
-    if (first_char == "#" and options.ext == "md") or 
-       (first_char == "*" and (options.ext == "org" or options.ext == "norg")) then
-      M.set_heading(title, options.ext)
-    end
+  if options.retitle_heading then
+    M.replace_heading(options, title)
   end
   title = M.format_denote_string(title, "-")
-  new_filename = new_filename .. title .. (tags or "") .. "." .. options.ext
+  local new_filename = prefix .. title .. (tags or "") .. "." .. options.ext
+  M.replace_file(filename, new_filename)
+end
+
+---TODO: Probably can simplify the match to one
+---TODO: Need to validate denote format so you don't rename random files
+---@param options table
+---@param filename string
+---@param tags string
+---Replaces the __tags in filename
+function M.tag(options, filename, tags)
+  local prefix = filename:match("^(.*)__.*$")
+  if not prefix then
+    prefix = filename:match("^(.*)%..-$")
+  end
+  tags = M.format_denote_string(tags, "_")
+  local new_filename = prefix .. tags .. "." .. options.ext
   M.replace_file(filename, new_filename)
 end
 
 ---@param options table
 ---@param filename string
----@param new_tags table
----Replaces the tags in filename
-function M.retag(options, filename, tags)
-  local new_filename = filename:match("^(.*)__.*$")
-  if new_filename == nil then
-    new_filename = filename:match("^(.*)%..*$")
-  end
-  tags = M.format_denote_string(tags, "_")
-  new_filename = new_filename .. tags .. "." .. options.ext
+---@param sig string
+---Add/change the ==signature in the filename
+function M.signature(options, filename, sig)
+  local prefix, suffix = filename:match("^(.-%d%d%d%d%d%d%d%dT%d%d%d%d%d%d)(.*)")
+  if not prefix then error("This doesn't look like a Denote filename") end
+  suffix = suffix:gsub("==[^%-%_%.]*", "")
+  sig = M.format_denote_string(sig, "=")
+  local new_filename = prefix .. sig .. suffix
   M.replace_file(filename, new_filename)
 end
 
