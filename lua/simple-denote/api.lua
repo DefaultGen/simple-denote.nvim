@@ -3,12 +3,12 @@ local M = {}
 local internal = require("simple-denote.internal")
 
 ---@param options table
----@param name string|nil
+---@param title string|nil
 ---@param tags table|nil
-function M.note(options, name, tags)
-  if not name then
+function M.note(options, title, tags)
+  if not title then
     vim.ui.input({ prompt = "Note title: " }, function(input)
-      name = input
+      title = input
     end)
   end
   if not tags then
@@ -16,12 +16,13 @@ function M.note(options, name, tags)
       tags = input
     end)
   end
-  internal.note(options, name, tags)
+  if not title or not tags then return end
+  internal.note(options, title, tags)
 end
 
 ---@param options table
 ---@param filename string|nil
----@param new_title string|nil
+---@param title string|nil
 function M.title(options, filename, title)
   if not filename then
     filename = vim.fn.expand("%")
@@ -31,6 +32,7 @@ function M.title(options, filename, title)
       title = input
     end)
   end
+  if not title then return end
   internal.title(options, filename, title)
 end
 
@@ -46,6 +48,7 @@ function M.tag(options, filename, tags)
       tags = input
     end)
   end
+  if not tags then return end
   internal.tag(options, filename, tags)
 end
 
@@ -59,6 +62,7 @@ function M.signature(options, filename, sig)
       sig = input
     end)
   end
+  if not sig then return end
   internal.signature(options, filename, sig)
 end
 

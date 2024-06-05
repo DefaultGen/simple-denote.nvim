@@ -19,17 +19,27 @@ function M.load_cmd(options)
   end, {
     nargs = 1,
     complete = function()
-      return { "note", "retitle", "retag", "signature" }
+      return { "note", "title", "tag", "signature" }
     end,
   })
+end
+
+---Add / to directory if necessary and set the heading_char based on the ext
+function M.fix_options()
+  if config.options.dir:sub(-1) ~= "/" then
+    config.options.dir = config.options.dir .. "/"
+  end
+  if config.options.ext == "md" then
+    config.options.heading_char = "#"
+  elseif config.options.ext == "org" or config.options.ext == "norg" then
+    config.options.heading_char = "*"
+  end
 end
 
 ---@param options? table user configuration
 function M.setup(options)
   config.options = vim.tbl_deep_extend("force", config.defaults, options or {})
-  if config.options.dir:sub(-1) ~= "/" then
-    config.options.dir = config.options.dir .. "/"
-  end
+  M.fix_options()
   M.load_cmd(config.options)
 end
 

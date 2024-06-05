@@ -22,10 +22,10 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 {
   "DefaultGen/simple-denote.nvim",
   opts = {
-    ext = "md",             -- Note file extension (e.g. md, org, norg)
+    ext = "md",             -- Note file extension (e.g. md, org, norg, txt)
     dir = "~/notes",        -- Notes directory (should already exist)
     add_heading = true,     -- Add a md/org heading to new notes
-    retitle_heading = true, -- Replace the first line with a new heading when retitling
+    retitle_heading = true, -- Replace the first line heading when retitling
   },
 },
 ```
