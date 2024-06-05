@@ -32,6 +32,15 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 The heading options automatically support Markdown (#) and Org/Norg (*) headings.
 
+Maybe you want to set keymaps for the commands as well
+
+```lua
+vim.keymap.set({'n','v'}, '<leader>nn', "<cmd>Denote note<cr>",      { desc = "New note"         })
+vim.keymap.set({'n','v'}, '<leader>nt', "<cmd>Denote title<cr>",     { desc = "Change title"     })
+vim.keymap.set({'n','v'}, '<leader>nk', "<cmd>Denote tag<cr>",       { desc = "Change tags"      })
+vim.keymap.set({'n','v'}, '<leader>nz', "<cmd>Denote signature<cr>", { desc = "Change signature" })
+```
+
 # :Denote Command
 
 ```vim
