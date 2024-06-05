@@ -4,6 +4,8 @@ This plugin provides a command `:Denote note` that prompts for a title and tags,
 
 `DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION`
 
+![](https://i.imgur.com/sRlQeMk.mp4)
+
 For example:
 1. `20240601T174946--how-to-tie-a-tie__lifeskills_clothes.md`
 2. `20240601T180054--i-have-no-tags.md`
@@ -11,7 +13,7 @@ For example:
 4. `20240601T200121.md`
 5. `20240601T213392=1a1--i-have-a-signature__denote_coolstuff.md` (Not yet implemented)
 
-There is no support for frontmatter or any other denote features. I just like the file-naming scheme.
+There is no support for frontmatter, links, or any other denote features. I just like the file-naming scheme. It's easy to parse, search, and sort chronologically.
 
 You can read more about the denote file-naming scheme here:
 https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
@@ -44,7 +46,7 @@ The heading options automatically support Markdown (#) and Org/Norg (*) headings
 
 ```vim
 " Renames the current note with the new title
-" If `new_heading_on_retitle` is true, overwrites the first line heading as well
+" If `retitle_heading` is true, overwrites the first line heading as well
 :Denote retitle
 ```
 
@@ -55,7 +57,8 @@ The heading options automatically support Markdown (#) and Org/Norg (*) headings
 
 # Credits
 
-Lots of code stolen from [HumanEntity's denote.nvim](https://github.com/HumanEntity/denote.nvim) and modified to suit my personal preference or closer adhere to the original Denote spec.
+* [HumanEntity's denote.nvim](https://github.com/HumanEntity/denote.nvim) - This project was based on denote.nvim and modified to suit my personal preference or closer adhere to the original Denote spec.
+* [denote.el](https://protesilaos.com/emacs/denote) - The original Emacs package
 
 # License
 

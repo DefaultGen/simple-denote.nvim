@@ -63,7 +63,7 @@ function M.note(options, title, tags)
   vim.cmd("edit " .. file)
   if options.add_heading and og_title ~= "" then
     M.set_heading(og_title, options.ext)
-    vim.cmd("norm! o")
+    vim.cmd("norm! 2o")
   end
   vim.cmd("startinsert")
 end
