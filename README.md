@@ -9,7 +9,7 @@ For example:
 2. `20240601T180054--i-have-no-tags.md`
 3. `20240601T193022__im_only_tags.md`
 4. `20240601T200121.md`
-5. `20240601T213392=1a1--i-have-a-signature__denote_coolstuff.md` (Not yet implemented)
+5. `20240601T213392==1a1--i-have-a-signature__denote_coolstuff.md`
 
 There is no support for frontmatter, links, or any other denote features. I just like the file-naming scheme. It's easy to parse, search, and sort chronologically. You can read more about it here:
 https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
@@ -43,12 +43,18 @@ The heading options automatically support Markdown (#) and Org/Norg (*) headings
 ```vim
 " Renames the current note with the new title
 " If `retitle_heading` is true, overwrites the first line heading as well
-:Denote retitle
+:Denote title
 ```
 
 ```vim
 " Renames the current note with the new list of tags (space delimited)
-:Denote retag
+:Denote tag
+```
+
+```vim
+" Rename the current note with a signature
+" This has a user-defined meaning and no particular purpose
+:Denote signature
 ```
 
 # Credits
