@@ -1,10 +1,8 @@
 # simple-denote.nvim
 
-This plugin provides a command `:Denote note` that prompts for a title and tags, then creates a new file using the emacs `denote` package file-naming scheme:
+This plugin provides a command `:Denote note` that prompts for a title and tags, then creates a new file in your notes directory using the emacs `denote` package file-naming scheme:
 
 `DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION`
-
-![](https://i.imgur.com/sRlQeMk.mp4)
 
 For example:
 1. `20240601T174946--how-to-tie-a-tie__lifeskills_clothes.md`
@@ -13,9 +11,7 @@ For example:
 4. `20240601T200121.md`
 5. `20240601T213392=1a1--i-have-a-signature__denote_coolstuff.md` (Not yet implemented)
 
-There is no support for frontmatter, links, or any other denote features. I just like the file-naming scheme. It's easy to parse, search, and sort chronologically.
-
-You can read more about the denote file-naming scheme here:
+There is no support for frontmatter, links, or any other denote features. I just like the file-naming scheme. It's easy to parse, search, and sort chronologically. You can read more about it here:
 https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d
 
 # Installation / Config
@@ -26,7 +22,7 @@ Example config via [lazy.nvim](https://github.com/folke/lazy.nvim)
 {
   "DefaultGen/simple-denote.nvim",
   opts = {
-    ext = "md",             -- Note file extension
+    ext = "md",             -- Note file extension (e.g. md, org, norg)
     dir = "~/notes",        -- Notes directory (should already exist)
     add_heading = true,     -- Add a md/org heading to new notes
     retitle_heading = true, -- Replace the first line with a new heading when retitling
