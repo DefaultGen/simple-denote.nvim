@@ -5,7 +5,7 @@ M.defaults = {
   dir = "~/notes/",
   add_heading = true,
   retitle_heading = true,
-  heading_char = ""
+  heading_char = "" -- This gets set automatically
 }
 
 M.options = M.defaults
