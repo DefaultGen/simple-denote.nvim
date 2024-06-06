@@ -62,7 +62,7 @@ require('simple-denote').setup({
   dir = "~/notes",
   add_heading = true,
   retitle_heading = true,
-}
+})
 ```
 
 ### Manual upgrade
