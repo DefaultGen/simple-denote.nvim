@@ -1,7 +1,6 @@
 local M = {}
 
 local internal = require("simple-denote.internal")
-local search = require ("simple-denote.search")
 
 ---@param options table
 ---@param title string|nil

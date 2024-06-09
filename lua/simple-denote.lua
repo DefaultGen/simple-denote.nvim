@@ -2,7 +2,6 @@ local M = {}
 
 local config = require("simple-denote.config")
 local api = require("simple-denote.api")
-local search = require ("simple-denote.search")
 
 function M.load_cmd(options)
   vim.api.nvim_create_user_command("Denote", function(opts)
@@ -14,10 +13,6 @@ function M.load_cmd(options)
       api.tag(options)
     elseif opts.fargs[1] == "signature" then
       api.signature(options)
-    elseif opts.fargs[1] == "search" then
-      search.search(options)
-    elseif opts.fargs[1] == "test" then
-      search.test()
     else
       error("Unsupported operation " .. opts.fargs[1])
     end
