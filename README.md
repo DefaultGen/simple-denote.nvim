@@ -11,9 +11,7 @@ For example:
 4. `20240601T200121.md`
 5. `20240601T213392==1a1--i-have-a-signature__denote_coolstuff.md`
 
-There is no frontmatter, linking, or any other features. I have overcomplicated my notes too many times with fancy Org Mode and Zettelkasten systems and this is my minimalist endgame.
-
-You can use this on its own or with more featureful plugins like [neorg](https://github.com/nvim-neorg/neorg), [wiki.vim](https://github.com/lervag/wiki.vim), or [Marksman](https://github.com/artempyanykh/marksman), but if your plugin has built in templates you can probably just recreate the denote spec with those instead of using this.
+That's almost this does: open a file. I have overcomplicated my notes too many times with fancy Org Mode and Zettelkasten systems and this is my minimalist endgame. This readme is just overly long to guide any first time Neovim users coming from the Emacs side.
 
 # Installation / Config
 
@@ -38,10 +36,10 @@ The heading options automatically support Markdown (#) and Org/Norg (*) headings
 Maybe you want to set keymaps for the commands as well
 
 ```lua
-vim.keymap.set({'n','v'}, '<leader>nn', "<cmd>Denote note<cr>",      { desc = "New note"         })
-vim.keymap.set({'n','v'}, '<leader>nt', "<cmd>Denote title<cr>",     { desc = "Change title"     })
-vim.keymap.set({'n','v'}, '<leader>nk', "<cmd>Denote tag<cr>",       { desc = "Change tags"      })
-vim.keymap.set({'n','v'}, '<leader>nz', "<cmd>Denote signature<cr>", { desc = "Change signature" })
+vim.keymap.set({'n','v'}, '<leader>nn', ":Denote note<cr>",      { desc = "New note"         })
+vim.keymap.set({'n','v'}, '<leader>nt', ":Denote title<cr>",     { desc = "Change title"     })
+vim.keymap.set({'n','v'}, '<leader>nk', ":Denote tag<cr>",       { desc = "Change tags"      })
+vim.keymap.set({'n','v'}, '<leader>nz', ":Denote signature<cr>", { desc = "Change signature" })
 ```
 
 ## Manual Install
@@ -89,12 +87,36 @@ git pull
 " Rename the current note with a signature
 " This has a user-defined meaning and no particular purpose
 :Denote signature
+
+" Built in cursed search command (depends on fzf, fd, and sd)
+:Denote search
+```
+
+# Search
+
+You probably have a separate search plugin you will configure, but there is a cursed a built-in `:Denote search` command that depends on `fzf`, `fd`, and `sd`. It's both reinventing the wheel and WIP.
+
+## Better Alternative: Minimal fzf.vim plugin
+
+Instead of `:Denote search`, you can keep things as fast/minimal as possible by using the built-in `fzf.vim` plugin that comes with `fzf`. This is a barebones wrapper confusingly *not* the same as the identically named `junegunn/fzf.vim` plugin on Github. It's a single file in the `/plugin` directory in the `fzf` repo.
+
+Arch Linux installs it with the `fzf` package under `/usr/share/vim/vimfiles/plugin`. Debian doesn't automatically install it. Find/download and source this file in your `init.lua`:
+
+```lua
+vim.cmd('source /usr/share/vim/vimfiles/plugin/fzf.vim')
+```
+
+Add a keymap to call `:FZF [dir]`:
+
+```lua
+vim.keymap.set({'n','v'}, '<leader>ns', ":FZF ~/notes<cr>", { desc = "Search Notes" })
 ```
 
 # Credits
 
 * [HumanEntity/denote.nvim](https://github.com/HumanEntity/denote.nvim) - This project was based on denote.nvim and modified to suit my personal preference or closer adhere to the original Denote spec.
 * [denote.el](https://protesilaos.com/emacs/denote) - The original Emacs package
+* [Christopher DeLuca](https://www.chrisdeluca.me/2022/01/12/diy-neovim-fzy.html) - Boilerplate code for search function
 
 # License
 
