@@ -11,7 +11,7 @@ For example:
 4. `20240601T200121.txt`
 5. `20240601T213392==1a1--i-have-a-signature__denote_coolstuff.csv`
 
-That's all this does: create and consistently rename Denote files. No frontmatter, links, etc. I have overcomplicated my notes too many times with fancy Org Mode and Zettelkasten systems and this is my minimalist endgame.
+That's all this does: create and consistently rename text files using the above scheme. No frontmatter, links, etc. I have overcomplicated my notes too many times with fancy Org Mode and Zettelkasten systems and this is my minimalist endgame.
 
 The file-naming should be 1:1 with denote.el, down to minor things like triming/combining excess whitespace, removing special characters, disallowing multi-word keywords (tags), and separating signature terms with = (e.g. `==three=word=sig`).
 
