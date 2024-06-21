@@ -4,20 +4,20 @@ local internal = require("simple-denote.internal")
 
 ---@param options table
 ---@param title string|nil
----@param tags table|nil
-function M.note(options, title, tags)
+---@param keywords table|nil
+function M.note(options, title, keywords)
   if not title then
     vim.ui.input({ prompt = "Note title: " }, function(input)
       title = input
     end)
   end
-  if not tags then
-    vim.ui.input({ prompt = "Tags: " }, function(input)
-      tags = input
+  if not keywords then
+    vim.ui.input({ prompt = "Keywords: " }, function(input)
+      keywords = input
     end)
   end
-  if not title or not tags then return end
-  internal.note(options, title, tags)
+  if not title or not keywords then return end
+  internal.note(options, title, keywords)
 end
 
 ---@param options table
@@ -38,18 +38,18 @@ end
 
 ---@param options table
 ---@param filename string|nil
----@param tags table|nil
-function M.tag(options, filename, tags)
+---@param keywords table|nil
+function M.keyword(options, filename, keywords)
   if not filename then
     filename = vim.fn.expand("%")
   end
-  if not tags then
-    vim.ui.input({ prompt = "New tags: " }, function(input)
-      tags = input
+  if not keywords then
+    vim.ui.input({ prompt = "New keywords: " }, function(input)
+      keywords = input
     end)
   end
-  if not tags then return end
-  internal.tag(options, filename, tags)
+  if not keywords then return end
+  internal.keyword(options, filename, keywords)
 end
 
 ---@param options table

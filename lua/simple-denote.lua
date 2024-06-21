@@ -9,8 +9,8 @@ function M.load_cmd(options)
       api.note(options)
     elseif opts.fargs[1] == "title" then
       api.title(options)
-    elseif opts.fargs[1] == "tag" then
-      api.tag(options)
+    elseif opts.fargs[1] == "keywords" then
+      api.keywords(options)
     elseif opts.fargs[1] == "signature" then
       api.signature(options)
     else
@@ -19,7 +19,7 @@ function M.load_cmd(options)
   end, {
     nargs = 1,
     complete = function()
-      return { "note", "title", "tag", "signature" }
+      return { "note", "title", "keywords", "signature" }
     end,
   })
 end

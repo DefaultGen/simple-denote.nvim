@@ -18,8 +18,8 @@ function M.plain_format(str)
 end
 
 ---@param str string
----@param char delimiter that replaces spaces (- for titles, _ for tags, = for sigs)
----Format the title/tags/sig string of a Denote filename
+---@param char delimiter that replaces spaces (- for titles, _ for keywords, = for sigs)
+---Format the title/keywords/sig string of a Denote filename
 function M.format_denote_string(str, char)
   str = M.plain_format(str)
   if str == "" then return "" end
@@ -52,15 +52,15 @@ end
 
 ---@param options table
 ---@param title string
----@param tags string
+---@param keywords string
 ---Edit a new note with a Denote filename
-function M.note(options, title, tags)
+function M.note(options, title, keywords)
   title = M.trim(title)
   local og_title = title
-  tags = M.format_denote_string(tags, "_")
+  keywords = M.format_denote_string(keywords, "_")
   title = M.format_denote_string(title, "-")
   local file = options.dir .. os.date("%Y%m%dT%H%M%S")
-  file = file .. title .. tags .. "." .. options.ext
+  file = file .. title .. keywords .. "." .. options.ext
   vim.cmd("edit " .. file)
   if options.add_heading and og_title ~= "" then
     M.set_heading(options, og_title)
@@ -79,23 +79,23 @@ function M.title(options, filename, title)
     error("This doesn't look like a Denote filename")
   end
   local sig = filename:match(".-(==[^%-%_%.]*)")
-  local tags = filename:match(".-(__.*)%..*")
-  if not tags then tags = "" end
+  local keywords = filename:match(".-(__.*)%..*")
+  if not keywords then keywords = "" end
   if not sig then sig = "" end
   title = M.trim(title)
   if options.retitle_heading then
     M.set_heading(options, title)
   end
   title = M.format_denote_string(title, "-")
-  local new_filename = prefix .. sig .. title .. tags .. "." .. options.ext
+  local new_filename = prefix .. sig .. title .. keywords .. "." .. options.ext
   M.replace_file(filename, new_filename)
 end
 
 ---@param options table
 ---@param filename string
----@param tags string
----Replaces the __tags in filename
-function M.tag(options, filename, tags)
+---@param keywords string
+---Replaces the __keywords in filename
+function M.keyword(options, filename, keywords)
   local prefix = filename:match("^(.*)__.*$")
   if not prefix then
     prefix = filename:match("^(.*)%..-$")
@@ -103,8 +103,8 @@ function M.tag(options, filename, tags)
   if not prefix:match("%d%d%d%d%d%d%d%dT%d%d%d%d%d%d") then
     error("This doesn't look like a Denote filename")
   end
-  tags = M.format_denote_string(tags, "_")
-  local new_filename = prefix .. tags .. "." .. options.ext
+  keywords = M.format_denote_string(keywords, "_")
+  local new_filename = prefix .. keywords .. "." .. options.ext
   M.replace_file(filename, new_filename)
 end
 
