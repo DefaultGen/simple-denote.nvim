@@ -39,7 +39,7 @@ end
 ---@param options table
 ---@param filename string|nil
 ---@param keywords table|nil
-function M.keyword(options, filename, keywords)
+function M.keywords(options, filename, keywords)
   if not filename then
     filename = vim.fn.expand("%")
   end
