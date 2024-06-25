@@ -1,5 +1,7 @@
 # simple-denote.nvim
 
+**Archive Note**: This repo has been moved to https://codeberg.org/Historia/simple-denote.nvim, although it's simple and feature complete so I don't know that anything will change.
+
 This Neovim plugin provides a command `:Denote note` that prompts for a title and keywords (tags), then creates a new file in a flat notes directory using the [Emacs Denote package's file-naming scheme](https://protesilaos.com/emacs/denote#h:4e9c7512-84dc-4dfb-9fa9-e15d51178e5d):
 
 `DATE==SIGNATURE--TITLE__KEYWORDS.EXTENSION`
